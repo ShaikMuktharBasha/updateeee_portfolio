@@ -41,8 +41,8 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#FAFAF8]/90 dark:bg-[#0F1012]/90 backdrop-blur-md border-b border-[#E8E8E5] dark:border-[#23262A] py-3.5 shadow-xs'
-          : 'bg-transparent py-5'
+          ? 'bg-[#FAFAF8]/95 dark:bg-[#0F1012]/95 backdrop-blur-md border-b border-[#E8E8E5] dark:border-[#23262A] py-3.5 shadow-xs'
+          : 'bg-[#FAFAF8]/80 dark:bg-[#0F1012]/80 backdrop-blur-md border-b border-[#E8E8E5]/50 dark:border-[#23262A]/50 py-4'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between">
@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
           className="group flex items-center gap-1 text-base sm:text-lg font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] select-none"
         >
           <span>MUKTHAR</span>
-          <span className="text-[#526B83] dark:text-[#768FA6] transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
+          <span className="text-[#526B83] dark:text-[#38bdf8] transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
         </a>
 
         {/* Center / Desktop Links */}
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
                 e.preventDefault();
                 handleLinkClick(link.href);
               }}
-              className="text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC] transition-colors relative py-1"
+              className="text-[#4B5563] dark:text-[#EDEDEC] hover:text-[#171717] dark:hover:text-white transition-colors relative py-1"
             >
               {link.name}
             </a>
