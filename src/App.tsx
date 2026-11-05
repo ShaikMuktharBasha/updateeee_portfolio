@@ -9,6 +9,7 @@ import { GithubSection } from './components/GithubSection';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
+import { ScrollToTop } from './components/ScrollToTop';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -67,6 +68,9 @@ export default function App() {
         isOpen={isResumeOpen}
         onClose={() => setIsResumeOpen(false)}
       />
+
+      {/* Floating Go Up Button */}
+      <ScrollToTop />
     </div>
   );
 }
