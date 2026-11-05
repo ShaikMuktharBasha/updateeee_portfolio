@@ -8,7 +8,7 @@ export const PERSONAL_INFO = {
   institution: 'KL University',
   degree: 'B.Tech in Computer Science & Engineering',
   graduationYear: '2026',
-  email: 'shaikmuktharbasha2004@gmail.com',
+  email: '2300032055cseh1@gmail.com',
   github: 'https://github.com/ShaikMuktharBasha',
   linkedin: 'https://www.linkedin.com/in/shaik-mukthar-basha-a7192a259',
   location: 'Andhra Pradesh, India',

@@ -40,7 +40,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
     if (errorMessage) setErrorMessage('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setErrorMessage('Please fill in your name, email, and message.');
@@ -48,13 +48,50 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
     }
 
     setIsSubmitting(true);
-    // Simulate instantaneous, clean submission with feedback
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: formData.subject || `New Portfolio Message from ${formData.name}`,
+          message: formData.message,
+          _template: 'table'
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success !== 'false') {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setIsSubmitted(false), 8000);
+      } else {
+        // Fallback to mailto client
+        window.location.href = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(
+          formData.subject || `Portfolio Inquiry from ${formData.name}`
+        )}&body=${encodeURIComponent(
+          `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        )}`;
+        setIsSubmitted(true);
+      }
+    } catch {
+      // In case of ad-blocker or network error, fallback to direct mailto client
+      window.location.href = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(
+        formData.subject || `Portfolio Inquiry from ${formData.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
       setIsSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 6000);
-    }, 800);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
