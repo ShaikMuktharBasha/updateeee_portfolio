@@ -67,3 +67,20 @@ body {
   background: #526B83;
 }
 
+/* Subtle Shimmer Animation for Editorial Accents */
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-shimmer {
+  animation: text-shimmer 6s ease-in-out infinite;
+}
+

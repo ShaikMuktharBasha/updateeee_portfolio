@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, FileDown } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import GradientASCII from './GradientASCII';
+
+// Animated Number Counter Component
+const CountUpNumber: React.FC<{ target: number }> = ({ target }) => {
+  const [val, setVal] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1200;
+    const stepTime = 40;
+    const totalSteps = duration / stepTime;
+    const increment = target / totalSteps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setVal(target);
+        clearInterval(timer);
+      } else {
+        setVal(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [target]);
+
+  return <span>{val}</span>;
+};
 
 interface HeroProps {
   onOpenResume: () => void;
@@ -81,7 +108,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               className="text-3xl sm:text-4xl lg:text-[44px] xl:text-5xl font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] leading-[1.12] mb-4"
             >
               Building thoughtful<br />
-              <span className="text-[#526B83] dark:text-[#8FA8C0]">digital experiences.</span>
+              <span className="text-[#526B83] dark:text-[#8FA8C0] bg-gradient-to-r from-[#1e3fd8] via-[#38bdf8] to-[#1e3fd8] dark:from-[#38bdf8] dark:via-[#a5d8ff] dark:to-[#38bdf8] bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer inline-block">
+                digital experiences.
+              </span>
             </motion.h1>
 
             {/* Lead Description */}
@@ -201,10 +230,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
           className="pt-6 border-t border-[#E8E8E5] dark:border-[#272A2E] grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left"
         >
           {[
-            { label: 'University', title: 'KL University', desc: 'B.Tech CSE (2022–2026)' },
-            { label: 'Specialization', title: 'Full-Stack & Applied AI', desc: 'React, Python, Cloud, RAG' },
-            { label: 'Featured Work', title: '9 Deployed Projects', desc: 'Live Web & Streamlit apps' },
-            { label: 'Credentials', title: '4 Industry Certifications', desc: 'Azure, AWS, MongoDB, IBM' }
+            { label: 'University', title: 'KL University', count: null, desc: 'B.Tech CSE (2022–2026)' },
+            { label: 'Specialization', title: 'Full-Stack & Applied AI', count: null, desc: 'React, Python, Cloud, RAG' },
+            { label: 'Featured Work', title: 'Deployed Projects', count: 9, desc: 'Live Web & Streamlit apps' },
+            { label: 'Credentials', title: 'Industry Certifications', count: 4, desc: 'Azure, AWS, MongoDB, IBM' }
           ].map((item, i) => (
             <motion.div
               key={item.label}
@@ -213,7 +242,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               transition={{ duration: 0.5, delay: 0.6 + i * 0.08 }}
             >
               <div className="text-[11px] font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C]">{item.label}</div>
-              <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">{item.title}</div>
+              <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">
+                {item.count !== null ? (
+                  <>
+                    <CountUpNumber target={item.count} /> {item.title}
+                  </>
+                ) : (
+                  item.title
+                )}
+              </div>
               <div className="text-[11px] text-[#737373] dark:text-[#9E9E9C]">{item.desc}</div>
             </motion.div>
           ))}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { Sun, Moon, FileDown, Menu, X, ArrowUpRight } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
@@ -11,22 +12,48 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenResume }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+
+  // Smooth Reading / Scroll Progress Bar
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
+
+      // Active Section Scrollspy
+      const sections = ['hero', 'about', 'projects', 'skills', 'certifications', 'github', 'contact'];
+      const scrollPos = window.scrollY + 200;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Certifications', href: '#certifications' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '#hero', id: 'hero' },
+    { name: 'About', href: '#about', id: 'about' },
+    { name: 'Projects', href: '#projects', id: 'projects' },
+    { name: 'Skills', href: '#skills', id: 'skills' },
+    { name: 'Certifications', href: '#certifications', id: 'certifications' },
+    { name: 'Contact', href: '#contact', id: 'contact' },
   ];
 
   const handleLinkClick = (href: string) => {
@@ -59,21 +86,32 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
           <span className="text-[#526B83] dark:text-[#768FA6] transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
         </a>
 
-        {/* Center / Desktop Links */}
-        <nav className="hidden md:flex items-center gap-7 text-xs font-medium tracking-tight">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                handleLinkClick(link.href);
-              }}
-              className="text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC] transition-colors relative py-1"
-            >
-              {link.name}
-            </a>
-          ))}
+        {/* Center / Desktop Links with Active Pill Highlight */}
+        <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-black/[0.03] dark:bg-white/[0.04] border border-[#E8E8E5]/80 dark:border-[#272A2E]/80 backdrop-blur-xs text-xs font-medium tracking-tight">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(link.href);
+                }}
+                className={`px-3.5 py-1.5 rounded-full transition-all relative ${
+                  isActive
+                    ? 'text-[#171717] dark:text-[#EDEDEC] bg-white dark:bg-[#1E2024] shadow-xs font-semibold'
+                    : 'text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC]'
+                }`}
+              >
+                {link.name}
+                {isActive && (
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#1e3fd8] dark:bg-[#38bdf8]" />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         {/* Right Action Icons: Resume & Theme Toggle */}
@@ -81,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
           {/* Subtle Resume Action */}
           <button
             onClick={onOpenResume}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] hover:border-[#526B83]/50 text-[#171717] dark:text-[#EDEDEC] transition-all hover:shadow-xs active:scale-95"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] hover:border-[#526B83]/50 text-[#171717] dark:text-[#EDEDEC] transition-all hover:shadow-xs active:scale-95 cursor-pointer"
             title="View & Download Resume"
           >
             <FileDown className="w-3.5 h-3.5 text-[#526B83] dark:text-[#768FA6]" />
@@ -92,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
           <button
             onClick={onToggleTheme}
             aria-label="Toggle theme"
-            className="p-2 rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] text-[#737373] hover:text-[#171717] dark:text-[#9E9E9C] dark:hover:text-white transition-all active:scale-90"
+            className="p-2 rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] text-[#737373] hover:text-[#171717] dark:text-[#9E9E9C] dark:hover:text-white transition-all active:scale-90 cursor-pointer"
           >
             {darkMode ? (
               <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
@@ -156,6 +194,12 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
           </nav>
         </div>
       )}
+
+      {/* Sleek Top Reading Scroll Progress Bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#1e3fd8] via-[#38bdf8] to-[#93c5fd] origin-left shadow-[0_0_8px_rgba(56,189,248,0.6)] pointer-events-none"
+        style={{ scaleX }}
+      />
     </header>
   );
 };

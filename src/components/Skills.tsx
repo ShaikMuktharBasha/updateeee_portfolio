@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SKILLS_DATA } from '../data/portfolioData';
 import { 
@@ -21,6 +21,16 @@ const categoryIcons: Record<string, React.ElementType> = {
 };
 
 export const Skills: React.FC = () => {
+  const [mousePos, setMousePos] = useState<Record<string, { x: number; y: number }>>({});
+
+  const handleMouseMove = (catKey: string, e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos((prev) => ({
+      ...prev,
+      [catKey]: { x: e.clientX - rect.left, y: e.clientY - rect.top },
+    }));
+  };
+
   return (
     <section id="skills" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
@@ -47,6 +57,7 @@ export const Skills: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {SKILLS_DATA.map((cat, index) => {
             const Icon = categoryIcons[cat.category] || Code;
+            const pos = mousePos[cat.category] || { x: 150, y: 150 };
 
             return (
               <motion.div
@@ -55,8 +66,16 @@ export const Skills: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/40 transition-colors shadow-2xs"
+                onMouseMove={(e) => handleMouseMove(cat.category, e)}
+                className="group relative p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/40 transition-colors shadow-2xs overflow-hidden"
               >
+                {/* Mouse Spotlight Glow */}
+                <div
+                  className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: `radial-gradient(350px circle at ${pos.x}px ${pos.y}px, rgba(56, 189, 248, 0.12), transparent 75%)`,
+                  }}
+                />
                 <div>
                   {/* Category Title & Icon */}
                   <div className="flex items-center gap-3 pb-4 border-b border-[#E8E8E5] dark:border-[#272A2E]">

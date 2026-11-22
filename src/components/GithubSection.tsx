@@ -16,6 +16,15 @@ interface GithubRepo {
 export const GithubSection: React.FC = () => {
   const [repos, setRepos] = useState<GithubRepo[]>(GITHUB_STATS.topRepos);
   const [publicRepoCount, setPublicRepoCount] = useState<number>(GITHUB_STATS.totalRepositories);
+  const [mousePos, setMousePos] = useState<Record<string, { x: number; y: number }>>({});
+
+  const handleMouseMove = (repoName: string, e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos((prev) => ({
+      ...prev,
+      [repoName]: { x: e.clientX - rect.left, y: e.clientY - rect.top },
+    }));
+  };
 
   useEffect(() => {
     const fetchGitHubData = async () => {
@@ -113,15 +122,26 @@ export const GithubSection: React.FC = () => {
 
         {/* Minimal Repository Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {repos.map((repo, index) => (
-            <motion.div
-              key={repo.name}
-              initial={{ opacity: 0, y: 30, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.55, delay: (index % 2) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="p-6 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/40 transition-colors shadow-2xs"
-            >
+          {repos.map((repo, index) => {
+            const pos = mousePos[repo.name] || { x: 150, y: 150 };
+
+            return (
+              <motion.div
+                key={repo.name}
+                initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.55, delay: (index % 2) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                onMouseMove={(e) => handleMouseMove(repo.name, e)}
+                className="group relative p-6 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/40 transition-colors shadow-2xs overflow-hidden"
+              >
+                {/* Mouse Spotlight Glow */}
+                <div
+                  className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: `radial-gradient(350px circle at ${pos.x}px ${pos.y}px, rgba(56, 189, 248, 0.12), transparent 75%)`,
+                  }}
+                />
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-[#E8E8E5] dark:border-[#272A2E]">
                   <div className="flex items-center gap-2">
@@ -169,7 +189,8 @@ export const GithubSection: React.FC = () => {
                 </a>
               </div>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
       </div>
     </section>

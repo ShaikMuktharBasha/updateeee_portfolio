@@ -12,6 +12,12 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   return (
     <motion.article
@@ -19,10 +25,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.65, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
+      onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="group relative flex flex-col rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] overflow-hidden transition-all duration-300 hover:border-[#526B83]/50 hover:shadow-md"
     >
+      {/* Interactive Cursor Spotlight Radial Glow */}
+      <div
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+        style={{
+          background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, rgba(56, 189, 248, 0.12), transparent 75%)`,
+        }}
+      />
       {/* Custom Designed Visual Thumbnail / Preview UI */}
       <div className="relative h-56 sm:h-64 w-full bg-[#FAFAF8] dark:bg-[#131416] overflow-hidden transition-transform duration-500 ease-out group-hover:scale-[1.01]">
         <ProjectPreview type={project.previewType} isHovered={isHovered} />

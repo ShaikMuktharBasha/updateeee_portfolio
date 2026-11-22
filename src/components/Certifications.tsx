@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CERTIFICATIONS_DATA } from '../data/portfolioData';
 import { Award, ShieldCheck, CheckCircle2, ExternalLink } from 'lucide-react';
 
 export const Certifications: React.FC = () => {
+  const [mousePos, setMousePos] = useState<Record<string, { x: number; y: number }>>({});
+
+  const handleMouseMove = (id: string, e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos((prev) => ({
+      ...prev,
+      [id]: { x: e.clientX - rect.left, y: e.clientY - rect.top },
+    }));
+  };
   return (
     <section id="certifications" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
@@ -28,15 +37,26 @@ export const Certifications: React.FC = () => {
 
         {/* Clean Certificate Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {CERTIFICATIONS_DATA.map((cert, index) => (
-            <motion.div
-              key={cert.id}
-              initial={{ opacity: 0, y: 35, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.6, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/50 transition-all hover:shadow-xs group"
-            >
+          {CERTIFICATIONS_DATA.map((cert, index) => {
+            const pos = mousePos[cert.id] || { x: 150, y: 150 };
+
+            return (
+              <motion.div
+                key={cert.id}
+                initial={{ opacity: 0, y: 35, scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.6, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                onMouseMove={(e) => handleMouseMove(cert.id, e)}
+                className="group relative p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/50 transition-all hover:shadow-xs overflow-hidden"
+              >
+                {/* Mouse Spotlight Glow */}
+                <div
+                  className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{
+                    background: `radial-gradient(380px circle at ${pos.x}px ${pos.y}px, rgba(56, 189, 248, 0.12), transparent 75%)`,
+                  }}
+                />
               <div>
                 {/* Header with Issuer & Badge */}
                 <div className="flex items-start justify-between pb-4 border-b border-[#E8E8E5] dark:border-[#272A2E]">
@@ -90,7 +110,8 @@ export const Certifications: React.FC = () => {
                 </span>
               </div>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
       </div>
     </section>
