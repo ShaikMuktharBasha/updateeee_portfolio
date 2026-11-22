@@ -161,9 +161,10 @@ export const About: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                  className="p-5 rounded-lg bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] hover:border-[#526B83]/40 transition-colors"
+                  whileHover={{ y: -3, scale: 1.02 }}
+                  className="p-5 rounded-lg bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] hover:border-[#526B83]/50 transition-all duration-300 hover:shadow-md cursor-default group"
                 >
-                  <div className="p-2 w-fit rounded bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] mb-3">
+                  <div className="p-2 w-fit rounded bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] mb-3 group-hover:scale-110 group-hover:text-[#1e3fd8] dark:group-hover:text-[#38bdf8] transition-all">
                     <Icon className="w-4 h-4" />
                   </div>
                   <h4 className="text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mb-1.5">

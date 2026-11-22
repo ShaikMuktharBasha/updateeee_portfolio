@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown, FileDown } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
@@ -43,6 +43,27 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // 3D Perspective Tilt on Portrait Card
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 220, damping: 25 });
+  const springY = useSpring(mouseY, { stiffness: 220, damping: 25 });
+  const rotateX = useTransform(springY, [-0.5, 0.5], ['8deg', '-8deg']);
+  const rotateY = useTransform(springX, [-0.5, 0.5], ['-8deg', '8deg']);
+
+  const handlePortraitMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(xPct);
+    mouseY.set(yPct);
+  };
+
+  const handlePortraitMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   return (
     <section id="hero" className="relative isolate pt-24 pb-10 sm:pt-28 sm:pb-12 md:pt-32 md:pb-14 overflow-hidden">
       {/* Ambient WebGL ASCII Background Effect (React Bits) - Earlier full blue effect */}
@@ -81,13 +102,18 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[#E8E8E5] dark:border-[#272A2E] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] shadow-2xs mb-3.5 w-fit"
+              className="relative overflow-hidden inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[#E8E8E5] dark:border-[#272A2E] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] shadow-2xs mb-3.5 w-fit group"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span>{PERSONAL_INFO.status}</span>
+              <span className="relative z-10">{PERSONAL_INFO.status}</span>
+              {/* Subtle ambient border pulse */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full border border-emerald-500/20 dark:border-emerald-400/25 pointer-events-none"
+              />
             </motion.div>
 
             {/* Small Intro Label */}
@@ -130,30 +156,36 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               transition={{ duration: 0.6, delay: 0.48 }}
               className="flex flex-wrap items-center gap-2.5 sm:gap-3"
             >
-              {/* Primary: View My Work */}
-              <button
+              {/* Primary: View My Work with Spring Lift */}
+              <motion.button
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={scrollToProjects}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#171717] text-white hover:bg-black dark:bg-[#EDEDEC] dark:text-[#171717] dark:hover:bg-white text-xs sm:text-sm font-medium transition-all shadow-xs active:scale-98 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#171717] text-white hover:bg-black dark:bg-[#EDEDEC] dark:text-[#171717] dark:hover:bg-white text-xs sm:text-sm font-medium transition-all shadow-xs active:scale-98 cursor-pointer group"
               >
                 <span>View My Work</span>
-                <ArrowDown className="w-3.5 h-3.5" />
-              </button>
+                <ArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
+              </motion.button>
 
-              {/* Download Resume */}
-              <button
+              {/* Download Resume with Spring Lift */}
+              <motion.button
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={onOpenResume}
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs hover:border-[#526B83]/60 text-[#171717] dark:text-[#EDEDEC] text-xs sm:text-sm font-medium transition-all shadow-2xs active:scale-98 cursor-pointer"
               >
                 <FileDown className="w-3.5 h-3.5 text-[#526B83] dark:text-[#768FA6]" />
                 <span>Resume</span>
-              </button>
+              </motion.button>
 
               <div className="h-5 w-px bg-[#E8E8E5] dark:bg-[#272A2E] hidden sm:block mx-0.5" />
 
               {/* Social Links Group (Kept together so neither wraps alone) */}
               <div className="flex items-center gap-2">
                 {/* GitHub */}
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
                   href={PERSONAL_INFO.github}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -162,10 +194,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
                 >
                   <GithubIcon className="w-3.5 h-3.5" />
                   <span>GitHub</span>
-                </a>
+                </motion.a>
 
                 {/* LinkedIn */}
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
                   href={PERSONAL_INFO.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -174,33 +208,48 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
                 >
                   <LinkedinIcon className="w-3.5 h-3.5 text-[#0077B5]" />
                   <span>LinkedIn</span>
-                </a>
+                </motion.a>
               </div>
             </motion.div>
           </div>
 
           {/* Right Column: User Portrait (lg:col-span-5) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+          <div className="lg:col-span-5 flex justify-center lg:justify-end [perspective:1000px]">
             <motion.div
               initial={{ opacity: 0, scale: 0.94, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[330px]"
             >
-              {/* Editorial Frame */}
-              <div className="relative rounded-2xl bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs p-2.5 sm:p-3 border border-[#E8E8E5] dark:border-[#272A2E] shadow-sm group">
-                <div className="overflow-hidden rounded-xl aspect-[4/5] relative bg-[#FAFAF8] dark:bg-[#141517]">
+              {/* Editorial Frame with 3D Parallax Tilt */}
+              <motion.div
+                onMouseMove={handlePortraitMouseMove}
+                onMouseLeave={handlePortraitMouseLeave}
+                style={{
+                  rotateX,
+                  rotateY,
+                  transformStyle: 'preserve-3d',
+                }}
+                className="relative rounded-2xl bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs p-2.5 sm:p-3 border border-[#E8E8E5] dark:border-[#272A2E] shadow-sm hover:shadow-xl transition-shadow duration-300 group cursor-pointer"
+              >
+                <div 
+                  className="overflow-hidden rounded-xl aspect-[4/5] relative bg-[#FAFAF8] dark:bg-[#141517]"
+                  style={{ transform: 'translateZ(20px)' }}
+                >
                   <img
                     src="/mukthar.jpg"
                     alt="Shaik Mukthar Basha — Computer Science Engineer & Full-Stack Developer"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                     loading="eager"
                   />
                   {/* Subtle gradient vignette at bottom for floating badge */}
                   <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 via-black/15 to-transparent pointer-events-none" />
 
-                  {/* Floating Pill Badge */}
-                  <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-3 sm:left-3 sm:right-3 flex items-center justify-between p-2 sm:p-2.5 rounded-lg bg-white/95 dark:bg-[#161719]/95 backdrop-blur-md border border-[#E8E8E5]/80 dark:border-[#2A2E33]/80 shadow-md">
+                  {/* Floating Pill Badge with 3D Depth */}
+                  <div 
+                    style={{ transform: 'translateZ(30px)' }}
+                    className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-3 sm:left-3 sm:right-3 flex items-center justify-between p-2 sm:p-2.5 rounded-lg bg-white/95 dark:bg-[#161719]/95 backdrop-blur-md border border-[#E8E8E5]/80 dark:border-[#2A2E33]/80 shadow-md"
+                  >
                     <div className="flex items-center gap-2 overflow-hidden">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
                       <div className="truncate">
@@ -217,7 +266,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
                     </span>
                   </div>
                 </div>
-              </div>
+
+                {/* Interactive Dynamic Glare Sheen */}
+                <div
+                  className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+                  style={{
+                    background: 'radial-gradient(380px circle at 50% 20%, rgba(255, 255, 255, 0.16), transparent 70%)',
+                  }}
+                />
+              </motion.div>
             </motion.div>
           </div>
         </div>

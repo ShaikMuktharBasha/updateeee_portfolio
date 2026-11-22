@@ -82,12 +82,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
         {/* Bottom Section: Technologies & Links */}
         <div className="pt-4 border-t border-[#E8E8E5] dark:border-[#272A2E]">
-          {/* Tech Stack Pills */}
+          {/* Tech Stack Pills with Micro-Hover Glow */}
           <div className="flex flex-wrap gap-1.5 mb-5">
             {project.technologies.map((tech) => (
               <span
                 key={tech}
-                className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#FAFAF8] dark:bg-[#1E2024] text-[#737373] dark:text-[#9E9E9C] border border-[#E8E8E5] dark:border-[#2A2E33]"
+                className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#FAFAF8] dark:bg-[#1E2024] text-[#737373] dark:text-[#9E9E9C] border border-[#E8E8E5] dark:border-[#2A2E33] hover:border-[#526B83]/70 hover:text-[#171717] dark:hover:text-[#EDEDEC] hover:bg-white dark:hover:bg-[#25282D] transition-all cursor-default shadow-2xs hover:scale-105 active:scale-95"
               >
                 {tech}
               </span>

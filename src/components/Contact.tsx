@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, 
   FileDown, 
@@ -19,6 +19,7 @@ interface ContactProps {
 
 export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
   const [copied, setCopied] = useState(false);
+  const [currentTime, setCurrentTime] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,6 +29,27 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Live IST Clock
+  useEffect(() => {
+    const updateTime = () => {
+      try {
+        const timeStr = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        }).format(new Date());
+        setCurrentTime(timeStr);
+      } catch {
+        setCurrentTime('IST (UTC +5:30)');
+      }
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
@@ -170,12 +192,17 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                   </span>
                 </div>
                 <div className="p-3 rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33]">
-                  <span className="text-[10px] font-mono uppercase text-[#737373] dark:text-[#9E9E9C] flex items-center gap-1 mb-1">
-                    <Clock className="w-3 h-3 text-[#526B83]" /> Timezone
-                  </span>
-                  <span className="font-medium text-[#171717] dark:text-[#EDEDEC]">
-                    IST (UTC +5:30)
-                  </span>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-mono uppercase text-[#737373] dark:text-[#9E9E9C] flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-[#526B83]" /> Local Time (IST)
+                    </span>
+                    <span className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-mono">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
+                    </span>
+                  </div>
+                  <div className="font-mono text-xs font-semibold text-[#171717] dark:text-[#EDEDEC]">
+                    {currentTime || 'IST (UTC +5:30)'}
+                  </div>
                 </div>
               </div>
 
@@ -338,6 +365,22 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
           </motion.div>
         </div>
       </div>
+
+      {/* Floating Copy Feedback Toast */}
+      <AnimatePresence>
+        {copied && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#171717] text-white dark:bg-[#EDEDEC] dark:text-[#171717] shadow-xl text-xs font-medium border border-white/10 dark:border-black/10 backdrop-blur-md"
+          >
+            <Check className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+            <span>Email copied to clipboard: <strong>{PERSONAL_INFO.email}</strong></span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
