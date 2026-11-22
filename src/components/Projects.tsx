@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PROJECTS_DATA } from '../data/portfolioData';
 import { ProjectCard } from './ProjectCard';
 import { Sparkles } from 'lucide-react';
@@ -35,7 +35,7 @@ export const Projects: React.FC = () => {
             </p>
           </motion.div>
 
-          {/* Minimal Category Tabs */}
+          {/* Minimal Category Tabs with Animated Sliding Pill */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -53,29 +53,42 @@ export const Projects: React.FC = () => {
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                    isActive
-                      ? 'bg-[#171717] text-white dark:bg-[#EDEDEC] dark:text-[#171717] shadow-xs'
-                      : 'text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC]'
-                  }`}
+                  className="relative px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer"
                 >
-                  {category} <span className="text-[10px] opacity-70 font-mono">({count})</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeCategoryPill"
+                      className="absolute inset-0 bg-[#171717] dark:bg-[#EDEDEC] rounded-md shadow-xs"
+                      transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                    />
+                  )}
+                  <span
+                    className={`relative z-10 transition-colors ${
+                      isActive
+                        ? 'text-white dark:text-[#171717] font-semibold'
+                        : 'text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC]'
+                    }`}
+                  >
+                    {category} <span className="text-[10px] opacity-75 font-mono">({count})</span>
+                  </span>
                 </button>
               );
             })}
           </motion.div>
         </div>
 
-        {/* Two-Column Editorial Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-            />
-          ))}
-        </div>
+        {/* Two-Column Editorial Project Grid with Smooth Reorder Layout */}
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Bottom Note */}
         <div className="mt-14 pt-8 border-t border-[#E8E8E5] dark:border-[#272A2E] flex flex-col sm:flex-row items-center justify-between text-xs text-[#737373] dark:text-[#9E9E9C] gap-3">

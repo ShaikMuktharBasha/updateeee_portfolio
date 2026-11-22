@@ -10,6 +10,8 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 import { ScrollToTop } from './components/ScrollToTop';
+import { CommandPalette } from './components/CommandPalette';
+import { AmbientCursorGlow } from './components/AmbientCursorGlow';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -22,6 +24,7 @@ export default function App() {
   });
 
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   useEffect(() => {
     if (darkMode) {
@@ -33,17 +36,33 @@ export default function App() {
     }
   }, [darkMode]);
 
+  // Global keyboard shortcut for Command Palette (Cmd+K / Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const toggleTheme = () => {
     setDarkMode(prev => !prev);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAFAF8] text-[#171717] dark:bg-[#111214] dark:text-[#EDEDEC] transition-colors duration-300">
+      {/* Interactive Ambient Cursor Glow (Desktop) */}
+      <AmbientCursorGlow />
+
       {/* Minimal Sticky Navigation */}
       <Navbar
         darkMode={darkMode}
         onToggleTheme={toggleTheme}
         onOpenResume={() => setIsResumeOpen(true)}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
       {/* Main Portfolio Sections */}
@@ -67,6 +86,15 @@ export default function App() {
       <ResumeModal
         isOpen={isResumeOpen}
         onClose={() => setIsResumeOpen(false)}
+      />
+
+      {/* Keyboard-Navigatable Quick Command Palette (Cmd + K) */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        darkMode={darkMode}
+        onToggleTheme={toggleTheme}
+        onOpenResume={() => setIsResumeOpen(true)}
       />
 
       {/* Floating Go Up Button */}

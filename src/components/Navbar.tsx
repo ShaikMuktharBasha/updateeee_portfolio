@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Sun, Moon, FileDown, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Sun, Moon, FileDown, Menu, X, ArrowUpRight, Command } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { ScrambleText } from './ScrambleText';
 
 interface NavbarProps {
   darkMode: boolean;
   onToggleTheme: () => void;
   onOpenResume: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenResume }) => {
+export const Navbar: React.FC<NavbarProps> = ({ 
+  darkMode, 
+  onToggleTheme, 
+  onOpenResume,
+  onOpenCommandPalette 
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -73,16 +80,16 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between">
-        {/* Left: Wordmark */}
+        {/* Left: Wordmark with Cyber ASCII Scramble */}
         <a
           href="#hero"
           onClick={(e) => {
             e.preventDefault();
             handleLinkClick('#hero');
           }}
-          className="group flex items-center gap-1 text-base sm:text-lg font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] select-none"
+          className="group flex items-center gap-0.5 text-base sm:text-lg font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] select-none"
         >
-          <span>MUKTHAR</span>
+          <ScrambleText text="MUKTHAR" className="font-bold tracking-tight" />
           <span className="text-[#526B83] dark:text-[#768FA6] transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
         </a>
 
@@ -114,8 +121,20 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, onToggleTheme, onOpenR
           })}
         </nav>
 
-        {/* Right Action Icons: Resume & Theme Toggle */}
-        <div className="hidden sm:flex items-center gap-3">
+        {/* Right Action Icons: Command Palette, Resume & Theme Toggle */}
+        <div className="hidden sm:flex items-center gap-2.5">
+          {/* Quick Command Palette Button */}
+          {onOpenCommandPalette && (
+            <button
+              onClick={onOpenCommandPalette}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-mono rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] hover:border-[#526B83]/50 text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC] transition-all hover:shadow-xs active:scale-95 cursor-pointer"
+              title="Open Command Palette (Cmd + K or Ctrl + K)"
+            >
+              <Command className="w-3 h-3 text-[#526B83] dark:text-[#768FA6]" />
+              <span className="text-[11px]">⌘K</span>
+            </button>
+          )}
+
           {/* Subtle Resume Action */}
           <button
             onClick={onOpenResume}

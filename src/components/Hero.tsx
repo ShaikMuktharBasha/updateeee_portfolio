@@ -3,7 +3,8 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown, FileDown } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
-import GradientASCII from './GradientASCII';
+import { GradientASCII } from './GradientASCII';
+import { ScrambleText } from './ScrambleText';
 
 // Animated Number Counter Component
 const CountUpNumber: React.FC<{ target: number }> = ({ target }) => {
@@ -116,14 +117,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               />
             </motion.div>
 
-            {/* Small Intro Label */}
+            {/* Small Intro Label with Cyber ASCII Scramble */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xs sm:text-sm font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold mb-2.5"
             >
-              HELLO, I'M MUKTHAR
+              <ScrambleText text="HELLO, I'M MUKTHAR" />
             </motion.div>
 
             {/* Main Heading */}
