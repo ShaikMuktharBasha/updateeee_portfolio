@@ -90,11 +90,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           className="group flex items-center gap-0.5 text-base sm:text-lg font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] select-none"
         >
           <ScrambleText text="MUKTHAR" className="font-bold tracking-tight" />
-          <span className="text-[#526B83] dark:text-[#768FA6] transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
+          <span className="text-[#526B83] dark:text-[#38bdf8] transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
         </a>
 
         {/* Center / Desktop Links with Active Pill Highlight */}
-        <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-black/[0.03] dark:bg-white/[0.04] border border-[#E8E8E5]/80 dark:border-[#272A2E]/80 backdrop-blur-xs text-xs font-medium tracking-tight">
+        <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-black/[0.03] dark:bg-[#15171B]/90 border border-[#E8E8E5]/80 dark:border-[#2A2E33] backdrop-blur-md text-xs font-medium tracking-tight shadow-2xs">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
 
@@ -108,8 +108,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 className={`px-3.5 py-1.5 rounded-full transition-all relative ${
                   isActive
-                    ? 'text-[#171717] dark:text-[#EDEDEC] bg-white dark:bg-[#1E2024] shadow-xs font-semibold'
-                    : 'text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC]'
+                    ? 'text-[#171717] dark:text-white bg-white dark:bg-[#202329] shadow-xs font-semibold'
+                    : 'text-[#737373] dark:text-[#CBD5E1] hover:text-[#171717] dark:hover:text-white'
                 }`}
               >
                 {link.name}
@@ -127,10 +127,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {onOpenCommandPalette && (
             <button
               onClick={onOpenCommandPalette}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-mono rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] hover:border-[#526B83]/50 text-[#737373] dark:text-[#9E9E9C] hover:text-[#171717] dark:hover:text-[#EDEDEC] transition-all hover:shadow-xs active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-mono rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] hover:border-[#526B83]/50 text-[#737373] dark:text-[#CBD5E1] hover:text-[#171717] dark:hover:text-white transition-all hover:shadow-xs active:scale-95 cursor-pointer"
               title="Open Command Palette (Cmd + K or Ctrl + K)"
             >
-              <Command className="w-3 h-3 text-[#526B83] dark:text-[#768FA6]" />
+              <Command className="w-3 h-3 text-[#526B83] dark:text-[#38bdf8]" />
               <span className="text-[11px]">⌘K</span>
             </button>
           )}

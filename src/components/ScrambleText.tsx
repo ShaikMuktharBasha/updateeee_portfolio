@@ -56,3 +56,4 @@ export const ScrambleText: React.FC<ScrambleTextProps> = ({
     </span>
   );
 };
+

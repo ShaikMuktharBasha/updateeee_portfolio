@@ -103,7 +103,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="relative overflow-hidden inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[#E8E8E5] dark:border-[#272A2E] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] shadow-2xs mb-3.5 w-fit group"
+              className="relative overflow-hidden inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[#E8E8E5] dark:border-[#272A2E] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[11px] font-mono text-[#737373] dark:text-[#E2E8F0] shadow-2xs mb-3.5 w-fit group"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -122,7 +122,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xs sm:text-sm font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold mb-2.5"
+              className="text-xs sm:text-sm font-mono tracking-widest uppercase text-[#526B83] dark:text-[#38bdf8] font-semibold mb-2.5"
             >
               <ScrambleText text="HELLO, I'M MUKTHAR" />
             </motion.div>
@@ -145,7 +145,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.38 }}
-              className="text-sm sm:text-base text-[#737373] dark:text-[#9E9E9C] font-normal leading-relaxed max-w-xl mb-6"
+              className="text-sm sm:text-base text-[#737373] dark:text-[#E2E8F0] font-normal leading-relaxed max-w-xl mb-6"
             >
               I'm a Computer Science student and full-stack developer passionate about building useful applications, intelligent systems, and seamless digital experiences.
             </motion.p>
