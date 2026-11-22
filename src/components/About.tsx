@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { GraduationCap, Code2, Cpu, Cloud, Compass, CheckCircle2 } from 'lucide-react';
 import { PERSONAL_INFO, EDUCATION_DATA } from '../data/portfolioData';
 
@@ -30,19 +31,31 @@ export const About: React.FC = () => {
     <section id="about" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
+        >
           <span className="text-xs font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold block mb-2">
             Background & Philosophy
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC]">
             A little about me.
           </h2>
-        </div>
+        </motion.div>
 
         {/* Narrative & Education Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14">
           {/* Main Story Narrative */}
-          <div className="lg:col-span-7 space-y-5 text-base sm:text-lg text-[#737373] dark:text-[#9E9E9C] font-normal leading-relaxed">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-5 text-base sm:text-lg text-[#737373] dark:text-[#9E9E9C] font-normal leading-relaxed"
+          >
             <p>
               I am a Computer Science student at <strong className="text-[#171717] dark:text-[#EDEDEC] font-semibold">KL University</strong>, where I combine theoretical computing foundations with hands-on full-stack development and applied machine learning.
             </p>
@@ -68,10 +81,16 @@ export const About: React.FC = () => {
                 <span>Passionate about building production-grade software that solves genuine user pain points.</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Compact Education Card */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: 35, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 flex flex-col justify-between"
+          >
             <div className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] shadow-xs">
               <div className="flex items-center gap-3 pb-5 border-b border-[#E8E8E5] dark:border-[#272A2E]">
                 <div className="p-2.5 rounded-lg bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6]">
@@ -118,20 +137,30 @@ export const About: React.FC = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Technical Interests Sub-grid */}
         <div className="mt-16 pt-12 border-t border-[#E8E8E5] dark:border-[#272A2E]">
-          <h3 className="text-xs font-mono uppercase tracking-widest text-[#526B83] dark:text-[#768FA6] font-semibold mb-6">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.5 }}
+            className="text-xs font-mono uppercase tracking-widest text-[#526B83] dark:text-[#768FA6] font-semibold mb-6"
+          >
             Core Engineering Pillars
-          </h3>
+          </motion.h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {technicalInterests.map((interest) => {
+            {technicalInterests.map((interest, idx) => {
               const Icon = interest.icon;
               return (
-                <div
+                <motion.div
                   key={interest.title}
+                  initial={{ opacity: 0, y: 30, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   className="p-5 rounded-lg bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] hover:border-[#526B83]/40 transition-colors"
                 >
                   <div className="p-2 w-fit rounded bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] mb-3">
@@ -143,7 +172,7 @@ export const About: React.FC = () => {
                   <p className="text-xs text-[#737373] dark:text-[#9E9E9C] leading-relaxed">
                     {interest.desc}
                   </p>
-                </div>
+                </motion.div>
               );
             })}
           </div>

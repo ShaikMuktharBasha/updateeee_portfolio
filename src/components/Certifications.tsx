@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { CERTIFICATIONS_DATA } from '../data/portfolioData';
 import { Award, ShieldCheck, CheckCircle2, ExternalLink } from 'lucide-react';
 
@@ -7,7 +8,13 @@ export const Certifications: React.FC = () => {
     <section id="certifications" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
+        >
           <span className="text-xs font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold block mb-2">
             Industry Credentials & Badges
           </span>
@@ -17,13 +24,17 @@ export const Certifications: React.FC = () => {
           <p className="text-sm sm:text-base text-[#737373] dark:text-[#9E9E9C] mt-2 max-w-xl">
             Accredited certifications from Microsoft, Amazon Web Services, MongoDB University, and IBM validating core competencies in cloud, databases, and AI.
           </p>
-        </div>
+        </motion.div>
 
         {/* Clean Certificate Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {CERTIFICATIONS_DATA.map((cert) => (
-            <div
+          {CERTIFICATIONS_DATA.map((cert, index) => (
+            <motion.div
               key={cert.id}
+              initial={{ opacity: 0, y: 35, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.6, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
               className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/50 transition-all hover:shadow-xs group"
             >
               <div>
@@ -78,7 +89,7 @@ export const Certifications: React.FC = () => {
                   Active <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PROJECTS_DATA } from '../data/portfolioData';
 import { ProjectCard } from './ProjectCard';
 import { Sparkles } from 'lucide-react';
@@ -17,7 +18,12 @@ export const Projects: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="text-xs font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold block mb-2">
               Portfolio & Engineering Showcase
             </span>
@@ -27,10 +33,16 @@ export const Projects: React.FC = () => {
             <p className="text-sm sm:text-base text-[#737373] dark:text-[#9E9E9C] mt-2 max-w-xl">
               An editorial selection of nine production applications, intelligent systems, and developer tools built with modern frontend and backend architectures.
             </p>
-          </div>
+          </motion.div>
 
           {/* Minimal Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] w-fit">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] w-fit"
+          >
             {categories.map((category) => {
               const count = category === 'All' 
                 ? PROJECTS_DATA.length 
@@ -51,7 +63,7 @@ export const Projects: React.FC = () => {
                 </button>
               );
             })}
-          </div>
+          </motion.div>
         </div>
 
         {/* Two-Column Editorial Project Grid */}

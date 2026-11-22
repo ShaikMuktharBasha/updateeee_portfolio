@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ArrowDown, FileDown } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
@@ -49,32 +50,57 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
           {/* Left Column (lg:col-span-7) */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             {/* Availability Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[#E8E8E5] dark:border-[#272A2E] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] shadow-2xs mb-3.5 w-fit">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[#E8E8E5] dark:border-[#272A2E] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] shadow-2xs mb-3.5 w-fit"
+            >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
               <span>{PERSONAL_INFO.status}</span>
-            </div>
+            </motion.div>
 
             {/* Small Intro Label */}
-            <div className="text-xs sm:text-sm font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold mb-2.5">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-xs sm:text-sm font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold mb-2.5"
+            >
               HELLO, I'M MUKTHAR
-            </div>
+            </motion.div>
 
             {/* Main Heading */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[44px] xl:text-5xl font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] leading-[1.12] mb-4">
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="text-3xl sm:text-4xl lg:text-[44px] xl:text-5xl font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] leading-[1.12] mb-4"
+            >
               Building thoughtful<br />
               <span className="text-[#526B83] dark:text-[#8FA8C0]">digital experiences.</span>
-            </h1>
+            </motion.h1>
 
             {/* Lead Description */}
-            <p className="text-sm sm:text-base text-[#737373] dark:text-[#9E9E9C] font-normal leading-relaxed max-w-xl mb-6">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.38 }}
+              className="text-sm sm:text-base text-[#737373] dark:text-[#9E9E9C] font-normal leading-relaxed max-w-xl mb-6"
+            >
               I'm a Computer Science student and full-stack developer passionate about building useful applications, intelligent systems, and seamless digital experiences.
-            </p>
+            </motion.p>
 
             {/* CTAs and Social Links (All placed cleanly on one line) */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.48 }}
+              className="flex flex-wrap items-center gap-2.5 sm:gap-3"
+            >
               {/* Primary: View My Work */}
               <button
                 onClick={scrollToProjects}
@@ -121,12 +147,17 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
                   <span>LinkedIn</span>
                 </a>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Column: User Portrait (lg:col-span-5) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[330px]">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[330px]"
+            >
               {/* Editorial Frame */}
               <div className="relative rounded-2xl bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs p-2.5 sm:p-3 border border-[#E8E8E5] dark:border-[#272A2E] shadow-sm group">
                 <div className="overflow-hidden rounded-xl aspect-[4/5] relative bg-[#FAFAF8] dark:bg-[#141517]">
@@ -158,33 +189,35 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Minimal Editorial Metrics Banner */}
-        <div className="pt-6 border-t border-[#E8E8E5] dark:border-[#272A2E] grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
-          <div>
-            <div className="text-[11px] font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C]">University</div>
-            <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">KL University</div>
-            <div className="text-[11px] text-[#737373] dark:text-[#9E9E9C]">B.Tech CSE (2022–2026)</div>
-          </div>
-          <div>
-            <div className="text-[11px] font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C]">Specialization</div>
-            <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">Full-Stack & Applied AI</div>
-            <div className="text-[11px] text-[#737373] dark:text-[#9E9E9C]">React, Python, Cloud, RAG</div>
-          </div>
-          <div>
-            <div className="text-[11px] font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C]">Featured Work</div>
-            <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">9 Deployed Projects</div>
-            <div className="text-[11px] text-[#737373] dark:text-[#9E9E9C]">Live Web & Streamlit apps</div>
-          </div>
-          <div>
-            <div className="text-[11px] font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C]">Credentials</div>
-            <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">4 Industry Certifications</div>
-            <div className="text-[11px] text-[#737373] dark:text-[#9E9E9C]">Azure, AWS, MongoDB, IBM</div>
-          </div>
-        </div>
+        {/* Minimal Editorial Metrics Banner with Staggered Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.55 }}
+          className="pt-6 border-t border-[#E8E8E5] dark:border-[#272A2E] grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left"
+        >
+          {[
+            { label: 'University', title: 'KL University', desc: 'B.Tech CSE (2022–2026)' },
+            { label: 'Specialization', title: 'Full-Stack & Applied AI', desc: 'React, Python, Cloud, RAG' },
+            { label: 'Featured Work', title: '9 Deployed Projects', desc: 'Live Web & Streamlit apps' },
+            { label: 'Credentials', title: '4 Industry Certifications', desc: 'Azure, AWS, MongoDB, IBM' }
+          ].map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 + i * 0.08 }}
+            >
+              <div className="text-[11px] font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C]">{item.label}</div>
+              <div className="text-xs sm:text-sm font-semibold text-[#171717] dark:text-[#EDEDEC] mt-0.5">{item.title}</div>
+              <div className="text-[11px] text-[#737373] dark:text-[#9E9E9C]">{item.desc}</div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

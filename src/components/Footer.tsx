@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
@@ -12,7 +13,13 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="py-12 border-t border-[#E8E8E5] dark:border-[#272A2E] bg-[#FAFAF8] dark:bg-[#111214] text-xs">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-6"
+      >
         {/* Left: Built by Mukthar */}
         <div className="flex items-center gap-3 text-[#737373] dark:text-[#9E9E9C]">
           <span className="font-medium text-[#171717] dark:text-[#EDEDEC]">
@@ -60,7 +67,7 @@ export const Footer: React.FC = () => {
             <ArrowUp className="w-3.5 h-3.5" />
           </button>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 };

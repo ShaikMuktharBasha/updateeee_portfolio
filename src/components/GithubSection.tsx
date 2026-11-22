@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Star, GitFork, ArrowUpRight, GitCommit, Code2 } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import { GITHUB_STATS } from '../data/portfolioData';
@@ -53,7 +54,13 @@ export const GithubSection: React.FC = () => {
     <section id="github" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10"
+        >
           <div>
             <span className="text-xs font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold block mb-2">
               Open Source & Version Control
@@ -76,26 +83,43 @@ export const GithubSection: React.FC = () => {
             <span>@{GITHUB_STATS.username}</span>
             <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
-        </div>
+        </motion.div>
 
         {/* Real Dynamic GitHub Contribution Graph */}
-        <GithubContributionGraph />
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.99 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <GithubContributionGraph />
+        </motion.div>
 
         {/* Section Divider & Featured Repositories Header */}
-        <div className="mt-14 mb-6 flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.5 }}
+          className="mt-14 mb-6 flex items-center justify-between"
+        >
           <h3 className="text-xs font-mono uppercase tracking-widest text-[#526B83] dark:text-[#768FA6] font-semibold">
             Featured Repositories
           </h3>
           <span className="text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C]">
             {publicRepoCount} Public Repositories
           </span>
-        </div>
+        </motion.div>
 
         {/* Minimal Repository Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {repos.map((repo) => (
-            <div
+          {repos.map((repo, index) => (
+            <motion.div
               key={repo.name}
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.55, delay: (index % 2) * 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="p-6 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/40 transition-colors shadow-2xs"
             >
               <div>
@@ -144,7 +168,7 @@ export const GithubSection: React.FC = () => {
                   <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

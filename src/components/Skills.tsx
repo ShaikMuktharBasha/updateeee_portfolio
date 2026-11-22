@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { SKILLS_DATA } from '../data/portfolioData';
 import { 
   Code, 
@@ -24,7 +25,13 @@ export const Skills: React.FC = () => {
     <section id="skills" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
+        >
           <span className="text-xs font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold block mb-2">
             Technical Competencies & Stack
           </span>
@@ -34,16 +41,20 @@ export const Skills: React.FC = () => {
           <p className="text-sm sm:text-base text-[#737373] dark:text-[#9E9E9C] mt-2 max-w-xl">
             A comprehensive, clean overview of programming languages, frameworks, cloud infrastructure, and AI architectures applied across my projects.
           </p>
-        </div>
+        </motion.div>
 
         {/* Categorized Layout - Modern Swiss Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SKILLS_DATA.map((cat) => {
+          {SKILLS_DATA.map((cat, index) => {
             const Icon = categoryIcons[cat.category] || Code;
 
             return (
-              <div
+              <motion.div
                 key={cat.category}
+                initial={{ opacity: 0, y: 35, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/40 transition-colors shadow-2xs"
               >
                 <div>
@@ -93,7 +104,7 @@ export const Skills: React.FC = () => {
                   <span>Status: Production Verified</span>
                   <CheckCircle className="w-3.5 h-3.5 text-[#526B83] dark:text-[#768FA6]" />
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

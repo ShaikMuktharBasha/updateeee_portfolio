@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { 
   Mail, 
   FileDown, 
@@ -98,7 +99,13 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
     <section id="contact" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
+        >
           <span className="text-xs font-mono tracking-widest uppercase text-[#526B83] dark:text-[#768FA6] font-semibold block mb-2">
             Get in touch
           </span>
@@ -108,12 +115,18 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
           <p className="text-base sm:text-lg text-[#737373] dark:text-[#9E9E9C] mt-3 max-w-2xl leading-relaxed">
             I'm always interested in building meaningful products and connecting with people who love technology.
           </p>
-        </div>
+        </motion.div>
 
         {/* Contact Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14">
           {/* Left: Contact Info & Channels */}
-          <div className="lg:col-span-5 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -30, y: 20 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 space-y-6"
+          >
             <div className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] shadow-2xs space-y-5">
               <h3 className="text-base font-bold text-[#171717] dark:text-[#EDEDEC] pb-3 border-b border-[#E8E8E5] dark:border-[#272A2E]">
                 Direct Coordinates
@@ -204,10 +217,16 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right: Functional Minimal Contact Form */}
-          <div className="lg:col-span-7">
+          <motion.div
+            initial={{ opacity: 0, x: 30, y: 20 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7"
+          >
             <div className="p-6 sm:p-8 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] shadow-2xs">
               <h3 className="text-base font-bold text-[#171717] dark:text-[#EDEDEC] mb-1">
                 Send a Message
@@ -316,7 +335,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                 </form>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
