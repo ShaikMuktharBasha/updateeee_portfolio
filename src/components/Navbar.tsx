@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Sun, Moon, FileDown, Menu, X, ArrowUpRight, Command } from 'lucide-react';
+import { Sun, Moon, FileDown, Menu, X, ArrowUpRight, Command, Volume2, VolumeX } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { ScrambleText } from './ScrambleText';
+import { isSoundEnabled, toggleSound, playPop, playClick } from '../utils/sound';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -20,6 +21,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [soundOn, setSoundOn] = useState(false);
+
+  useEffect(() => {
+    setSoundOn(isSoundEnabled());
+  }, []);
+
+  const handleToggleSound = () => {
+    const newState = toggleSound();
+    setSoundOn(newState);
+  };
 
   // Smooth Reading / Scroll Progress Bar
   const { scrollYProgress } = useScroll();
@@ -145,9 +156,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>Resume</span>
           </button>
 
+          {/* Sound FX Toggle Button */}
+          <button
+            onClick={handleToggleSound}
+            aria-label={soundOn ? 'Mute UI sounds' : 'Enable UI sounds'}
+            title={soundOn ? 'Sound FX Enabled (Click to Mute)' : 'Enable Interactive Sound FX'}
+            className={`p-2 rounded-full border transition-all active:scale-90 cursor-pointer ${
+              soundOn
+                ? 'border-[#38bdf8]/60 bg-sky-50 dark:bg-sky-950/40 text-[#1e3fd8] dark:text-[#38bdf8] shadow-xs'
+                : 'border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] text-[#737373] hover:text-[#171717] dark:text-[#CBD5E1] dark:hover:text-white'
+            }`}
+          >
+            {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          </button>
+
           {/* Theme Toggle Button */}
           <button
-            onClick={onToggleTheme}
+            onClick={() => {
+              playPop();
+              onToggleTheme();
+            }}
             aria-label="Toggle theme"
             className="p-2 rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] text-[#737373] hover:text-[#171717] dark:text-[#9E9E9C] dark:hover:text-white transition-all active:scale-90 cursor-pointer"
           >

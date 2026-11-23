@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ExternalLink, ArrowUpRight } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import { Project } from '../types';
@@ -14,22 +14,46 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+  // 3D Perspective Tilt on Project Cards
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 220, damping: 25 });
+  const springY = useSpring(y, { stiffness: 220, damping: 25 });
+  const rotateX = useTransform(springY, [-0.5, 0.5], ['5deg', '-5deg']);
+  const rotateY = useTransform(springX, [-0.5, 0.5], ['-5deg', '5deg']);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    const mouseXPos = e.clientX - rect.left;
+    const mouseYPos = e.clientY - rect.top;
+    setMousePos({ x: mouseXPos, y: mouseYPos });
+    x.set(mouseXPos / rect.width - 0.5);
+    y.set(mouseYPos / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
   };
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 40, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.65, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] overflow-hidden transition-all duration-300 hover:border-[#526B83]/50 hover:shadow-md"
-    >
+    <div className="[perspective:1000px] h-full flex flex-col">
+      <motion.article
+        initial={{ opacity: 0, y: 40, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.65, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: 'preserve-3d',
+        }}
+        className="group relative flex flex-col flex-1 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] overflow-hidden transition-all duration-300 hover:border-[#526B83]/50 hover:shadow-xl"
+      >
       {/* Interactive Cursor Spotlight Radial Glow */}
       <div
         className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
@@ -148,5 +172,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         </div>
       </div>
     </motion.article>
+    </div>
   );
 };
