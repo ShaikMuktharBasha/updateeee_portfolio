@@ -96,27 +96,25 @@ export const Skills: React.FC = () => {
                     {cat.description}
                   </p>
 
-                  {/* Skills List with Clean Typography & Badges (No percentage bars!) */}
-                  <div className="space-y-2 mt-1">
-                    {cat.skills.map((skill) => (
-                      <div
-                        key={skill.name}
-                        className="flex items-baseline justify-between p-2 rounded-md bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5]/70 dark:border-[#2A2E33]/70 hover:border-[#526B83]/30 transition-colors"
-                      >
-                        <span className="text-xs font-semibold text-[#171717] dark:text-[#EDEDEC] flex items-center gap-1.5">
-                          {skill.highlight && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#526B83] dark:bg-[#768FA6]" />
-                          )}
-                          {skill.name}
-                        </span>
-                        {skill.level && (
-                          <span className="text-[10px] font-mono text-[#737373] dark:text-[#9E9E9C] text-right truncate max-w-[170px]">
-                            {skill.level}
+                    {/* Skills List with Clean Typography & Badges (No percentage bars!) */}
+                    <div className="space-y-2 mt-1">
+                      {cat.skills.map((skill) => (
+                        <div
+                          key={skill.name}
+                          className="flex items-baseline justify-between p-2 rounded-md bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5]/70 dark:border-[#2A2E33]/70 hover:border-[#1e3fd8]/50 dark:hover:border-[#38bdf8]/50 hover:bg-white dark:hover:bg-[#222429] hover:shadow-xs transition-all duration-200 group/skill cursor-default"
+                        >
+                          <span className="text-xs font-semibold text-[#171717] dark:text-[#EDEDEC] flex items-center gap-1.5 transition-colors group-hover/skill:text-[#1e3fd8] dark:group-hover/skill:text-[#38bdf8]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#526B83] dark:text-[#768FA6] transition-transform duration-200 group-hover/skill:scale-150 group-hover/skill:bg-[#1e3fd8] dark:group-hover/skill:bg-[#38bdf8]" />
+                            {skill.name}
                           </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                          {skill.level && (
+                            <span className="text-[10px] font-mono text-[#737373] dark:text-[#9E9E9C] text-right truncate max-w-[170px]">
+                              {skill.level}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-[#E8E8E5]/60 dark:border-[#272A2E]/60 flex items-center justify-between text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C]">

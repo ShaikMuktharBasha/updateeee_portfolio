@@ -84,3 +84,38 @@ body {
   animation: text-shimmer 6s ease-in-out infinite;
 }
 
+/* Animated Border Beam Orbit */
+@keyframes border-beam-dash {
+  to {
+    stroke-dashoffset: -1200;
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam-dash 8s linear infinite;
+}
+
+/* Equalizer frequency bar animations */
+@keyframes eq-1 {
+  0%, 100% { height: 3px; }
+  50% { height: 10px; }
+}
+@keyframes eq-2 {
+  0%, 100% { height: 8px; }
+  50% { height: 3px; }
+}
+@keyframes eq-3 {
+  0%, 100% { height: 4px; }
+  50% { height: 11px; }
+}
+
+.animate-eq-1 {
+  animation: eq-1 0.8s ease-in-out infinite;
+}
+.animate-eq-2 {
+  animation: eq-2 0.8s ease-in-out infinite 0.2s;
+}
+.animate-eq-3 {
+  animation: eq-3 0.8s ease-in-out infinite 0.4s;
+}
+

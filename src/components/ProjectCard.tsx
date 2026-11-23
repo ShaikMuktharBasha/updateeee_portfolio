@@ -37,6 +37,32 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, rgba(56, 189, 248, 0.12), transparent 75%)`,
         }}
       />
+
+      {/* Animated Laser Border Beam Orbit */}
+      <svg
+        className={`pointer-events-none absolute inset-0 w-full h-full rounded-xl z-20 transition-opacity duration-300 ${
+          index === 0 ? 'opacity-85 group-hover:opacity-100' : 'opacity-0 group-hover:opacity-85'
+        }`}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          width="100%"
+          height="100%"
+          rx="12"
+          fill="none"
+          stroke={`url(#border-beam-${index})`}
+          strokeWidth="2"
+          strokeDasharray="90 340"
+          className="animate-border-beam"
+        />
+        <defs>
+          <linearGradient id={`border-beam-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#1e3fd8" stopOpacity="0" />
+            <stop offset="50%" stopColor="#38bdf8" />
+            <stop offset="100%" stopColor="#93c5fd" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
       {/* Custom Designed Visual Thumbnail / Preview UI */}
       <div className="relative h-56 sm:h-64 w-full bg-[#FAFAF8] dark:bg-[#131416] overflow-hidden transition-transform duration-500 ease-out group-hover:scale-[1.01]">
         <ProjectPreview type={project.previewType} isHovered={isHovered} />

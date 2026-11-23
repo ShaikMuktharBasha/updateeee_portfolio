@@ -5,6 +5,7 @@ import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { GradientASCII } from './GradientASCII';
 import { ScrambleText } from './ScrambleText';
+import { Magnetic } from './Magnetic';
 
 // Animated Number Counter Component
 const CountUpNumber: React.FC<{ target: number }> = ({ target }) => {
@@ -109,6 +110,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
+              {/* Mini Equalizer Frequency Spectrum */}
+              <span className="flex items-end gap-[2px] h-2.5 pb-0.5">
+                <span className="w-[1.5px] bg-emerald-500 rounded-full animate-eq-1 inline-block" />
+                <span className="w-[1.5px] bg-emerald-500 rounded-full animate-eq-2 inline-block" />
+                <span className="w-[1.5px] bg-emerald-500 rounded-full animate-eq-3 inline-block" />
+              </span>
               <span className="relative z-10">{PERSONAL_INFO.status}</span>
               {/* Subtle ambient border pulse */}
               <span
@@ -150,66 +157,74 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResume, darkMode = false }) =>
               I'm a Computer Science student and full-stack developer passionate about building useful applications, intelligent systems, and seamless digital experiences.
             </motion.p>
 
-            {/* CTAs and Social Links (All placed cleanly on one line) */}
+            {/* CTAs and Social Links (All placed cleanly on one line with Magnetic Hover) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.48 }}
               className="flex flex-wrap items-center gap-2.5 sm:gap-3"
             >
-              {/* Primary: View My Work with Spring Lift */}
-              <motion.button
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={scrollToProjects}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#171717] text-white hover:bg-black dark:bg-[#EDEDEC] dark:text-[#171717] dark:hover:bg-white text-xs sm:text-sm font-medium transition-all shadow-xs active:scale-98 cursor-pointer group"
-              >
-                <span>View My Work</span>
-                <ArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
-              </motion.button>
+              {/* Primary: View My Work with Magnetic Spring */}
+              <Magnetic strength={12}>
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={scrollToProjects}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#171717] text-white hover:bg-black dark:bg-[#EDEDEC] dark:text-[#171717] dark:hover:bg-white text-xs sm:text-sm font-medium transition-all shadow-xs active:scale-98 cursor-pointer group"
+                >
+                  <span>View My Work</span>
+                  <ArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
+                </motion.button>
+              </Magnetic>
 
-              {/* Download Resume with Spring Lift */}
-              <motion.button
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onOpenResume}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs hover:border-[#526B83]/60 text-[#171717] dark:text-[#EDEDEC] text-xs sm:text-sm font-medium transition-all shadow-2xs active:scale-98 cursor-pointer"
-              >
-                <FileDown className="w-3.5 h-3.5 text-[#526B83] dark:text-[#768FA6]" />
-                <span>Resume</span>
-              </motion.button>
+              {/* Download Resume with Magnetic Spring */}
+              <Magnetic strength={12}>
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={onOpenResume}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs hover:border-[#526B83]/60 text-[#171717] dark:text-[#EDEDEC] text-xs sm:text-sm font-medium transition-all shadow-2xs active:scale-98 cursor-pointer"
+                >
+                  <FileDown className="w-3.5 h-3.5 text-[#526B83] dark:text-[#768FA6]" />
+                  <span>Resume</span>
+                </motion.button>
+              </Magnetic>
 
               <div className="h-5 w-px bg-[#E8E8E5] dark:bg-[#272A2E] hidden sm:block mx-0.5" />
 
               {/* Social Links Group (Kept together so neither wraps alone) */}
               <div className="flex items-center gap-2">
                 {/* GitHub */}
-                <motion.a
-                  whileHover={{ scale: 1.03, y: -1 }}
-                  whileTap={{ scale: 0.97 }}
-                  href={PERSONAL_INFO.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Mukthar's GitHub Profile"
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[#737373] hover:text-[#171717] dark:text-[#9E9E9C] dark:hover:text-white text-xs sm:text-sm font-medium transition-colors"
-                >
-                  <GithubIcon className="w-3.5 h-3.5" />
-                  <span>GitHub</span>
-                </motion.a>
+                <Magnetic strength={10}>
+                  <motion.a
+                    whileHover={{ scale: 1.03, y: -1 }}
+                    whileTap={{ scale: 0.97 }}
+                    href={PERSONAL_INFO.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Mukthar's GitHub Profile"
+                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[#737373] hover:text-[#171717] dark:text-[#EDEDEC] dark:hover:text-white text-xs sm:text-sm font-medium transition-colors"
+                  >
+                    <GithubIcon className="w-3.5 h-3.5" />
+                    <span>GitHub</span>
+                  </motion.a>
+                </Magnetic>
 
                 {/* LinkedIn */}
-                <motion.a
-                  whileHover={{ scale: 1.03, y: -1 }}
-                  whileTap={{ scale: 0.97 }}
-                  href={PERSONAL_INFO.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Mukthar's LinkedIn Profile"
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[#737373] hover:text-[#171717] dark:text-[#9E9E9C] dark:hover:text-white text-xs sm:text-sm font-medium transition-colors"
-                >
-                  <LinkedinIcon className="w-3.5 h-3.5 text-[#0077B5]" />
-                  <span>LinkedIn</span>
-                </motion.a>
+                <Magnetic strength={10}>
+                  <motion.a
+                    whileHover={{ scale: 1.03, y: -1 }}
+                    whileTap={{ scale: 0.97 }}
+                    href={PERSONAL_INFO.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Mukthar's LinkedIn Profile"
+                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border border-[#E8E8E5] dark:border-[#2A2E33] bg-white/90 dark:bg-[#18191C]/90 backdrop-blur-xs text-[#737373] hover:text-[#171717] dark:text-[#EDEDEC] dark:hover:text-white text-xs sm:text-sm font-medium transition-colors"
+                  >
+                    <LinkedinIcon className="w-3.5 h-3.5 text-[#0077B5]" />
+                    <span>LinkedIn</span>
+                  </motion.a>
+                </Magnetic>
               </div>
             </motion.div>
           </div>
