@@ -8,9 +8,16 @@ import { ProjectPreview } from './ProjectPreviews';
 interface ProjectCardProps {
   project: Project;
   index: number;
+  selectedTech?: string | null;
+  onSelectTech?: (tech: string) => void;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ 
+  project, 
+  index, 
+  selectedTech, 
+  onSelectTech 
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -87,6 +94,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           </linearGradient>
         </defs>
       </svg>
+
       {/* Custom Designed Visual Thumbnail / Preview UI */}
       <div className="relative h-56 sm:h-64 w-full bg-[#FAFAF8] dark:bg-[#131416] overflow-hidden transition-transform duration-500 ease-out group-hover:scale-[1.01]">
         <ProjectPreview type={project.previewType} isHovered={isHovered} />
@@ -132,16 +140,30 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
         {/* Bottom Section: Technologies & Links */}
         <div className="pt-4 border-t border-[#E8E8E5] dark:border-[#272A2E]">
-          {/* Tech Stack Pills with Micro-Hover Glow */}
+          {/* Interactive Tech Stack Pills with Click Filtering & Micro-Hover Glow */}
           <div className="flex flex-wrap gap-1.5 mb-5">
-            {project.technologies.map((tech) => (
-              <span
-                key={tech}
-                className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#FAFAF8] dark:bg-[#1E2024] text-[#737373] dark:text-[#9E9E9C] border border-[#E8E8E5] dark:border-[#2A2E33] hover:border-[#526B83]/70 hover:text-[#171717] dark:hover:text-[#EDEDEC] hover:bg-white dark:hover:bg-[#25282D] transition-all cursor-default shadow-2xs hover:scale-105 active:scale-95"
-              >
-                {tech}
-              </span>
-            ))}
+            {project.technologies.map((tech) => {
+              const isTechActive = selectedTech === tech;
+
+              return (
+                <button
+                  key={tech}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectTech?.(tech);
+                  }}
+                  className={`text-[10px] font-mono px-2 py-0.5 rounded-md transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 ${
+                    isTechActive
+                      ? 'bg-[#1e3fd8] text-white dark:bg-[#38bdf8] dark:text-[#0b132b] font-semibold ring-2 ring-offset-1 ring-[#1e3fd8]/40 dark:ring-[#38bdf8]/50'
+                      : 'bg-[#FAFAF8] dark:bg-[#1E2024] text-[#737373] dark:text-[#9E9E9C] border border-[#E8E8E5] dark:border-[#2A2E33] hover:border-[#526B83]/70 hover:text-[#171717] dark:hover:text-[#EDEDEC] hover:bg-white dark:hover:bg-[#25282D]'
+                  }`}
+                  title={isTechActive ? `Remove ${tech} filter` : `Filter by ${tech}`}
+                >
+                  {tech}
+                </button>
+              );
+            })}
           </div>
 
           {/* Action Links */}

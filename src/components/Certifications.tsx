@@ -3,16 +3,36 @@ import { motion } from 'framer-motion';
 import { CERTIFICATIONS_DATA } from '../data/portfolioData';
 import { Award, ShieldCheck, CheckCircle2, ExternalLink } from 'lucide-react';
 
+interface MouseState {
+  x: number;
+  y: number;
+  rotateX: number;
+  rotateY: number;
+}
+
 export const Certifications: React.FC = () => {
-  const [mousePos, setMousePos] = useState<Record<string, { x: number; y: number }>>({});
+  const [cardMouseStates, setCardMouseStates] = useState<Record<string, MouseState>>({});
 
   const handleMouseMove = (id: string, e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos((prev) => ({
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y / rect.height) - 0.5) * -6;
+    const rotateY = ((x / rect.width) - 0.5) * 6;
+
+    setCardMouseStates((prev) => ({
       ...prev,
-      [id]: { x: e.clientX - rect.left, y: e.clientY - rect.top },
+      [id]: { x, y, rotateX, rotateY },
     }));
   };
+
+  const handleMouseLeave = (id: string) => {
+    setCardMouseStates((prev) => ({
+      ...prev,
+      [id]: { x: 150, y: 150, rotateX: 0, rotateY: 0 },
+    }));
+  };
+
   return (
     <section id="certifications" className="py-20 md:py-28 border-t border-[#E8E8E5] dark:border-[#272A2E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
@@ -35,10 +55,10 @@ export const Certifications: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Clean Certificate Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {/* Clean Certificate Cards Grid with 3D Holographic Tilt */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 [perspective:1000px]">
           {CERTIFICATIONS_DATA.map((cert, index) => {
-            const pos = mousePos[cert.id] || { x: 150, y: 150 };
+            const state = cardMouseStates[cert.id] || { x: 150, y: 150, rotateX: 0, rotateY: 0 };
 
             return (
               <motion.div
@@ -48,75 +68,87 @@ export const Certifications: React.FC = () => {
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.6, delay: (index % 2) * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 onMouseMove={(e) => handleMouseMove(cert.id, e)}
-                className="group relative p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/50 transition-all hover:shadow-xs overflow-hidden"
+                onMouseLeave={() => handleMouseLeave(cert.id)}
+                style={{
+                  transform: `rotateX(${state.rotateX}deg) rotateY(${state.rotateY}deg)`,
+                  transformStyle: 'preserve-3d',
+                  transition: 'transform 0.15s ease-out',
+                }}
+                className="group relative p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] flex flex-col justify-between hover:border-[#526B83]/50 transition-all hover:shadow-xl overflow-hidden"
               >
                 {/* Mouse Spotlight Glow */}
                 <div
                   className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
                   style={{
-                    background: `radial-gradient(380px circle at ${pos.x}px ${pos.y}px, rgba(56, 189, 248, 0.12), transparent 75%)`,
+                    background: `radial-gradient(380px circle at ${state.x}px ${state.y}px, rgba(56, 189, 248, 0.14), transparent 75%)`,
                   }}
                 />
-              <div>
-                {/* Header with Issuer & Badge */}
-                <div className="flex items-start justify-between pb-4 border-b border-[#E8E8E5] dark:border-[#272A2E]">
-                  <div className="flex items-center gap-3">
-                    <div className="relative overflow-hidden p-2.5 rounded-lg bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] group-hover:bg-[#526B83] group-hover:text-white transition-colors">
-                      <Award className="w-5 h-5 relative z-10" />
-                      {/* Holographic Iridescent Sweeping Sheen */}
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />
+
+                <div>
+                  {/* Header with Issuer & Badge */}
+                  <div className="flex items-start justify-between pb-4 border-b border-[#E8E8E5] dark:border-[#272A2E]">
+                    <div className="flex items-center gap-3">
+                      <div className="relative overflow-hidden p-2.5 rounded-lg bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] group-hover:bg-[#526B83] group-hover:text-white transition-colors">
+                        <Award className="w-5 h-5 relative z-10" />
+                        {/* Holographic Iridescent Sweeping Sheen */}
+                        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C] block">
+                          {cert.issuer}
+                        </span>
+                        <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5">
+                          <CheckCircle2 className="w-3 h-3" /> Verified Credential
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C] block">
-                        {cert.issuer}
-                      </span>
-                      <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5">
-                        <CheckCircle2 className="w-3 h-3" /> Verified Credential
-                      </span>
-                    </div>
+
+                    <span className="text-xs font-mono px-2.5 py-1 rounded bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC]">
+                      {cert.badgeCode}
+                    </span>
                   </div>
 
-                  <span className="text-xs font-mono px-2.5 py-1 rounded bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC]">
-                    {cert.badgeCode}
-                  </span>
-                </div>
+                  {/* Title */}
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] mt-4 mb-2">
+                    {cert.title}
+                  </h3>
 
-                {/* Title */}
-                <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#171717] dark:text-[#EDEDEC] mt-4 mb-2">
-                  {cert.title}
-                </h3>
-
-                {/* Skills Tested */}
-                <div className="mt-3">
-                  <span className="text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] block mb-2">
-                    Verified Competencies:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {cert.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FAFAF8] dark:bg-[#1E2024] text-[#737373] dark:text-[#9E9E9C] border border-[#E8E8E5] dark:border-[#2A2E33]"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  {/* Skills Tested */}
+                  <div className="mt-3">
+                    <span className="text-[11px] font-mono text-[#737373] dark:text-[#9E9E9C] block mb-2">
+                      Verified Competencies:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cert.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FAFAF8] dark:bg-[#1E2024] text-[#737373] dark:text-[#9E9E9C] border border-[#E8E8E5] dark:border-[#2A2E33] transition-colors group-hover:border-[#526B83]/40"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Bottom Credential ID & Issuer */}
-              <div className="pt-4 mt-5 border-t border-[#E8E8E5] dark:border-[#272A2E] flex items-center justify-between text-xs font-mono text-[#737373] dark:text-[#9E9E9C]">
-                <span>Credential ID: {cert.credentialId}</span>
-                <span className="text-[#526B83] dark:text-[#768FA6] font-medium flex items-center gap-1">
-                  Active <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                </span>
-              </div>
-            </motion.div>
-          );
-        })}
+                {/* Footer with Issue Date & Verification */}
+                <div className="pt-4 mt-6 border-t border-[#E8E8E5] dark:border-[#272A2E] flex items-center justify-between text-xs text-[#737373] dark:text-[#9E9E9C]">
+                  <span className="font-mono text-[11px]">{cert.issueDate}</span>
+                  <a
+                    href={cert.verificationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-medium text-[#171717] dark:text-[#EDEDEC] hover:text-[#526B83] dark:hover:text-[#768FA6] transition-colors py-1 group/link"
+                  >
+                    <span>Verify Credential</span>
+                    <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 };
-

@@ -1,11 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Terminal } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { Magnetic } from './Magnetic';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenTerminal?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenTerminal }) => {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -30,10 +34,24 @@ export const Footer: React.FC = () => {
           <span className="font-mono">© {currentYear}</span>
         </div>
 
-        {/* Center: Live System Status Beacon */}
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#2A2E33] shadow-2xs font-mono text-[11px] text-[#737373] dark:text-[#CBD5E1]">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Status: Optimal • All Systems Live</span>
+        {/* Center: Live System Status Beacon & Terminal CLI Trigger */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#2A2E33] shadow-2xs font-mono text-[11px] text-[#737373] dark:text-[#CBD5E1]">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Status: Optimal • All Systems Live</span>
+          </div>
+
+          {onOpenTerminal && (
+            <button
+              onClick={onOpenTerminal}
+              className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#2A2E33] hover:border-[#38bdf8]/60 shadow-2xs font-mono text-[11px] text-[#737373] dark:text-[#CBD5E1] hover:text-[#171717] dark:hover:text-white transition-all active:scale-95 cursor-pointer"
+              title="Open Interactive CLI Terminal (or press ~)"
+            >
+              <Terminal className="w-3 h-3 text-[#38bdf8]" />
+              <span>CLI Terminal</span>
+              <kbd className="text-[10px] opacity-60">~</kbd>
+            </button>
+          )}
         </div>
 
         {/* Right: GitHub | LinkedIn | Email */}

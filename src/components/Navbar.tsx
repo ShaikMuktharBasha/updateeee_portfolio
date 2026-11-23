@@ -10,13 +10,15 @@ interface NavbarProps {
   onToggleTheme: () => void;
   onOpenResume: () => void;
   onOpenCommandPalette?: () => void;
+  onOpenShortcuts?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
   darkMode, 
   onToggleTheme, 
   onOpenResume,
-  onOpenCommandPalette 
+  onOpenCommandPalette,
+  onOpenShortcuts 
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -143,6 +145,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Command className="w-3 h-3 text-[#526B83] dark:text-[#38bdf8]" />
               <span className="text-[11px]">⌘K</span>
+            </button>
+          )}
+
+          {/* Single-Key Shortcuts Cheatsheet Trigger */}
+          {onOpenShortcuts && (
+            <button
+              onClick={onOpenShortcuts}
+              className="inline-flex items-center justify-center w-7 h-7 text-xs font-mono rounded-full border border-[#E8E8E5] dark:border-[#2A2E33] bg-white dark:bg-[#18191C] hover:border-[#526B83]/50 text-[#737373] dark:text-[#CBD5E1] hover:text-[#171717] dark:hover:text-white transition-all hover:shadow-xs active:scale-95 cursor-pointer font-bold"
+              title="Keyboard Shortcuts Cheatsheet (Press '?')"
+            >
+              ?
             </button>
           )}
 
