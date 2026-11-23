@@ -343,7 +343,7 @@ export const GithubContributionGraph: React.FC = () => {
                           });
                         }}
                         onMouseLeave={() => setHoveredDay(null)}
-                        className={`w-[12px] h-[12px] rounded-[2.5px] border transition-transform duration-100 hover:scale-125 cursor-pointer ${getCellColor(
+                        className={`w-[12px] h-[12px] rounded-[2.5px] border transition-transform duration-150 hover:scale-150 hover:shadow-md hover:ring-2 hover:ring-[#1e3fd8]/40 dark:hover:ring-[#38bdf8]/40 relative z-20 cursor-pointer ${getCellColor(
                           day.level
                         )}`}
                       />

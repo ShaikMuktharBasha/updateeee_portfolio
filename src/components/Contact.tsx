@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { fireConfetti } from '../utils/confetti';
 
 interface ContactProps {
   onOpenResume: () => void;
@@ -93,6 +94,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
 
       if (response.ok && data.success !== 'false') {
         setIsSubmitted(true);
+        fireConfetti();
         setFormData({ name: '', email: '', subject: '', message: '' });
         setTimeout(() => setIsSubmitted(false), 8000);
       } else {
@@ -103,6 +105,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
           `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
         )}`;
         setIsSubmitted(true);
+        fireConfetti();
       }
     } catch {
       // In case of ad-blocker or network error, fallback to direct mailto client

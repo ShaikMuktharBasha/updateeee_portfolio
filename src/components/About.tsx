@@ -1,9 +1,29 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { GraduationCap, Code2, Cpu, Cloud, Compass, CheckCircle2 } from 'lucide-react';
 import { PERSONAL_INFO, EDUCATION_DATA } from '../data/portfolioData';
 
 export const About: React.FC = () => {
+  // 3D Perspective Tilt on Education Card
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 220, damping: 25 });
+  const springY = useSpring(mouseY, { stiffness: 220, damping: 25 });
+  const rotateX = useTransform(springY, [-0.5, 0.5], ['7deg', '-7deg']);
+  const rotateY = useTransform(springX, [-0.5, 0.5], ['-7deg', '7deg']);
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(xPct);
+    mouseY.set(yPct);
+  };
+
+  const handleCardMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
   const technicalInterests = [
     {
       icon: Code2,
@@ -83,15 +103,32 @@ export const About: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Compact Education Card */}
+          {/* Compact Education Card with 3D Parallax Tilt */}
           <motion.div
             initial={{ opacity: 0, y: 35, scale: 0.98 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-between"
+            className="lg:col-span-5 flex flex-col justify-between [perspective:1000px]"
           >
-            <div className="p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] shadow-xs">
+            <motion.div
+              onMouseMove={handleCardMouseMove}
+              onMouseLeave={handleCardMouseLeave}
+              style={{
+                rotateX,
+                rotateY,
+                transformStyle: 'preserve-3d',
+              }}
+              className="relative p-6 sm:p-7 rounded-xl bg-white dark:bg-[#18191C] border border-[#E8E8E5] dark:border-[#272A2E] shadow-xs hover:shadow-xl transition-shadow duration-300 group cursor-pointer overflow-hidden"
+            >
+              {/* Dynamic Glare Reflection */}
+              <div
+                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+                style={{
+                  background: 'radial-gradient(350px circle at 50% 10%, rgba(56, 189, 248, 0.14), transparent 70%)',
+                }}
+              />
+
               <div className="flex items-center gap-3 pb-5 border-b border-[#E8E8E5] dark:border-[#272A2E]">
                 <div className="p-2.5 rounded-lg bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6]">
                   <GraduationCap className="w-5 h-5" />
@@ -136,7 +173,7 @@ export const About: React.FC = () => {
                   ))}
                 </ul>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 

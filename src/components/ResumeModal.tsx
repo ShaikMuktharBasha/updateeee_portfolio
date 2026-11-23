@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Download, Printer, ExternalLink, Mail, MapPin, Award, BookOpen, Code2 } from 'lucide-react';
 import { PERSONAL_INFO, EDUCATION_DATA, CERTIFICATIONS_DATA, SKILLS_DATA, PROJECTS_DATA } from '../data/portfolioData';
+import { fireConfetti } from '../utils/confetti';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -56,6 +57,7 @@ ${PROJECTS_DATA.map(p => `• ${p.title} (${p.category})
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    fireConfetti();
   };
 
   return (

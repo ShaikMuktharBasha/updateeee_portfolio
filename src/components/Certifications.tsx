@@ -61,8 +61,10 @@ export const Certifications: React.FC = () => {
                 {/* Header with Issuer & Badge */}
                 <div className="flex items-start justify-between pb-4 border-b border-[#E8E8E5] dark:border-[#272A2E]">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-lg bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] group-hover:bg-[#526B83] group-hover:text-white transition-colors">
-                      <Award className="w-5 h-5" />
+                    <div className="relative overflow-hidden p-2.5 rounded-lg bg-[#FAFAF8] dark:bg-[#202226] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#526B83] dark:text-[#768FA6] group-hover:bg-[#526B83] group-hover:text-white transition-colors">
+                      <Award className="w-5 h-5 relative z-10" />
+                      {/* Holographic Iridescent Sweeping Sheen */}
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />
                     </div>
                     <div>
                       <span className="text-xs font-mono uppercase tracking-wider text-[#737373] dark:text-[#9E9E9C] block">
