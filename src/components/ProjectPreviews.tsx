@@ -29,10 +29,14 @@ export const ProjectPreview: React.FC<PreviewProps> = ({ type, isHovered }) => {
           {/* Top Bar */}
           <div className="flex items-center justify-between pb-3 border-b border-[#E8E8E5]/80 dark:border-[#272A2E]/80">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#526B83]" />
+              <span className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${isHovered ? 'bg-[#38bdf8] shadow-[0_0_8px_rgba(56,189,248,0.8)]' : 'bg-[#526B83]'}`} />
               <span className="text-xs font-mono font-medium text-[#171717] dark:text-[#EDEDEC]">AetherPath Core // Dynamic Graph</span>
             </div>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+            <span className={`text-[11px] font-mono px-2 py-0.5 rounded transition-all duration-300 ${
+              isHovered 
+                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 shadow-xs' 
+                : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+            }`}>
               Active Milestone: 78%
             </span>
           </div>

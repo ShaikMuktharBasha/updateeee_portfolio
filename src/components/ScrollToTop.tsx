@@ -75,6 +75,11 @@ export const ScrollToTop: React.FC = () => {
         </svg>
 
         <ArrowUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 relative z-10" />
+
+        {/* Dynamic Percentage Tooltip on Hover */}
+        <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none px-2.5 py-1 rounded-md bg-[#171717] dark:bg-[#EDEDEC] text-white dark:text-[#171717] text-[11px] font-mono shadow-md whitespace-nowrap translate-x-1 group-hover:translate-x-0">
+          Top • {Math.round(scrollProgress)}%
+        </div>
       </button>
     </div>
   );

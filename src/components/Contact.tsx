@@ -296,7 +296,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                         onChange={handleChange}
                         placeholder="e.g. Jane Doe"
                         required
-                        className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#526B83] dark:focus:border-[#768FA6] transition-colors"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#1e3fd8] dark:focus:border-[#38bdf8] focus:ring-2 focus:ring-[#1e3fd8]/20 dark:focus:ring-[#38bdf8]/20 transition-all"
                       />
                     </div>
 
@@ -312,7 +312,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                         onChange={handleChange}
                         placeholder="e.g. jane@company.com"
                         required
-                        className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#526B83] dark:focus:border-[#768FA6] transition-colors"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#1e3fd8] dark:focus:border-[#38bdf8] focus:ring-2 focus:ring-[#1e3fd8]/20 dark:focus:ring-[#38bdf8]/20 transition-all"
                       />
                     </div>
                   </div>
@@ -328,14 +328,19 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder="e.g. Internship Opportunity / Collaboration"
-                      className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#526B83] dark:focus:border-[#768FA6] transition-colors"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#1e3fd8] dark:focus:border-[#38bdf8] focus:ring-2 focus:ring-[#1e3fd8]/20 dark:focus:ring-[#38bdf8]/20 transition-all"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-xs font-medium text-[#171717] dark:text-[#EDEDEC] mb-1.5">
-                      Message
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label htmlFor="message" className="block text-xs font-medium text-[#171717] dark:text-[#EDEDEC]">
+                        Message
+                      </label>
+                      <span className="text-[10px] font-mono text-[#737373] dark:text-[#9E9E9C]">
+                        {formData.message.length} characters
+                      </span>
+                    </div>
                     <textarea
                       id="message"
                       name="message"
@@ -344,7 +349,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenResume }) => {
                       onChange={handleChange}
                       placeholder="Describe your project, team, or inquiry..."
                       required
-                      className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#526B83] dark:focus:border-[#768FA6] transition-colors resize-none"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-lg bg-[#FAFAF8] dark:bg-[#1E2024] border border-[#E8E8E5] dark:border-[#2A2E33] text-[#171717] dark:text-[#EDEDEC] placeholder:text-[#737373]/60 focus:outline-none focus:border-[#1e3fd8] dark:focus:border-[#38bdf8] focus:ring-2 focus:ring-[#1e3fd8]/20 dark:focus:ring-[#38bdf8]/20 transition-all resize-none"
                     />
                   </div>
 

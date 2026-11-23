@@ -12,6 +12,7 @@ import { ResumeModal } from './components/ResumeModal';
 import { ScrollToTop } from './components/ScrollToTop';
 import { CommandPalette } from './components/CommandPalette';
 import { AmbientCursorGlow } from './components/AmbientCursorGlow';
+import { SectionDivider } from './components/SectionDivider';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -71,11 +72,17 @@ export default function App() {
           onOpenResume={() => setIsResumeOpen(true)} 
           darkMode={darkMode} 
         />
+        <SectionDivider />
         <About />
+        <SectionDivider />
         <Projects />
+        <SectionDivider />
         <Skills />
+        <SectionDivider />
         <Certifications />
+        <SectionDivider />
         <GithubSection />
+        <SectionDivider />
         <Contact onOpenResume={() => setIsResumeOpen(true)} />
       </main>
 
